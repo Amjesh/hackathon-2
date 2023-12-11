@@ -1,0 +1,29 @@
+{
+  "name": "Smart Agent",
+  "description": "This is a simple smart agent that greets the user by name.",
+  "icon": "https://s3.amazonaws.com/flowxo-static/icons/flow.png",
+  "color": "#00a6a6",
+  "capabilities": null,
+  "inputs": [
+    {
+      "name": "first_name",
+      "type": "shortText",
+      "label": "First Name",
+      "validation": {
+        "required": true,
+        "error": "First Name is required"
+      }
+    },
+    {
+      "name": "last_name",
+      "type": "shortText",
+      "label": "Last Name"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "greeting",
+      "type": "shortText"
+    }
+  ]
+}
