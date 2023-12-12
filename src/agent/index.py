@@ -1,8 +1,10 @@
 from src.utils.temp_db import temp_data
 from src.config.logger import Logger
 from src.utils.webhook import call_webhook_with_error
-from src.agent.generate_score import filter_best_cvs
+from src.agent.filter_cv import filter_best_cvs
 from src.agent.output_template import output_template
+import json
+import os
 
 logger = Logger()
 
@@ -18,17 +20,27 @@ templateOutput = [
         'Highlights': 'Example Highlights', "Don't Meet Criteria": 'Example Criteria', 'Score': 0.88},
 ]
 
-cvs_data = [
-    {
-        "file_name": "AMEE PATEL (CV).pdf",
-        "cv_info": {
-            "experience": "",
-            "projects": "",
-            "skills": ""
-        }
-    },
-    # Add the rest of the CV data here...
-]
+# cvs_data = [
+#     {
+#         "file_name": "AMEE PATEL (CV).pdf",
+#         "cv_info": {
+#             "experience": "",
+#             "projects": "",
+#             "skills": ""
+#         }
+#     },
+#     # Add the rest of the CV data here...
+# ]
+# Read data from JSON file
+# Get the absolute path to the script's directory
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Construct the full path to the JSON file
+json_file_path = os.path.join(script_dir, "cvs_data.json")
+with open(json_file_path, "r") as json_file:
+    cvs_data = json.load(json_file)
+
+print(cvs_data)
 
 
 # This is the base_agent function. This function is called when the agent is executed.
