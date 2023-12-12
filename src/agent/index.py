@@ -18,48 +18,10 @@ def base_agent(payload):
         job_description = inputs[0].get("job_description")
         result = []
 
-        # Extract key points from the CVs text
-        cv_text = """
-        I am an experienced Python Developer with a focus on web development using Django and Flask.
-        In my previous role at XYZ Corp, I led a team of developers in building scalable and efficient web applications.
-        I am proficient in database management using SQL and have worked with both MySQL and PostgreSQL.
-
-        Education:
-        - Bachelor of Science in Computer Science, ABC University, Graduated in 2010
-
-        Skills:
-        - Python
-        - Django
-        - Flask
-        - SQL
-        - MySQL
-        - PostgreSQL
-        - Web Development
-
-        Experience:
-        - Senior Python Developer, XYZ Corp, 2015-2021
-        - Led a team of developers in the implementation of web applications.
-        - Collaborated with cross-functional teams to define, design, and ship new features.
-
-        Other:
-        - Strong problem-solving skills
-        - Excellent communication skills
-        - Team player
-
-        """
-
-        key_points = extract_key_points(cv_text)
-
-        # Print the extracted key points
-        print("Skills:", key_points['Skills'])
-        print("Experience:", key_points['Experience'])
-        print("Education:", key_points['Education'])
-        print("Other:", key_points['Other'])
-
         resp = {
             "name": "selected_candidates",
             "type": "longText",
-            "data": key_points
+            "data": "key_points"
         }
         return resp
 

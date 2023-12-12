@@ -1,33 +1,23 @@
-import spacy
+import openai
+import os
 
-# Load the English NLP model from spaCy
-nlp = spacy.load("en_core_web_sm")
+# Set your OpenAI API key
+openai.api_key = os.environ.get('OPENAI_API_KEY')
 
 
 def extract_key_points(cv_text):
     try:
-        # Process the CV text using spaCy
-        doc = nlp(cv_text)
+        prompt = f"Extract the key points from the following CV text:\n\n{cv_text}\n\nKey Points:"
 
-        # Initialize dictionaries to store extracted information
-        key_points = {
-            'Skills': [],
-            'Experience': [],
-            'Education': [],
-            'Other': []
-        }
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # You can experiment with different engines
+            prompt=prompt,
+            max_tokens=150,  # Adjust as needed
+            temperature=0,  # Adjust as needed, higher values make the output more creative
+            stop=None  # You can customize the stop criteria
+        )
 
-        # Extract key information from the parsed document
-        for ent in doc.ents:
-            if ent.label_ == 'SKILL':
-                key_points['Skills'].append(ent.text)
-            elif ent.label_ == 'ORG' or ent.label_ == 'LOC':
-                key_points['Experience'].append(ent.text)
-            elif ent.label_ == 'DATE':
-                key_points['Education'].append(ent.text)
-            else:
-                key_points['Other'].append(ent.text)
-
+        key_points = response['choices'][0]['text'].strip()
         return key_points
 
     except Exception as e:
