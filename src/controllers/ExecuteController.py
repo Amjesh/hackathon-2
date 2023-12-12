@@ -4,7 +4,7 @@ from src.validator.agent import AgentSchema
 from src.utils.webhook import call_webhook_with_success, call_webhook_with_error
 from src.utils.temp_db import temp_data
 from src.config.logger import Logger
-from src.agent import base_agent
+from src.agent.index import base_agent
 
 logger = Logger()
 
