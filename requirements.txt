@@ -7,7 +7,8 @@ uvicorn==0.23.2
 validators==0.20.0
 PyDrive
 PyPDF2
-nltk
 spacy
-pyresparser
+gensim
+numpy
+pandas
 # fastapi_session==0.1.1
