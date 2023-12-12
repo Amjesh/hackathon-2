@@ -5,4 +5,10 @@ python-dotenv==1.0.0
 Requests==2.31.0
 uvicorn==0.23.2
 validators==0.20.0
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+google-api-python-client
+pymupdf
+docx2txt
 # fastapi_session==0.1.1

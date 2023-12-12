@@ -1,3 +1,4 @@
+from src.agent.read_files_from_directory import authenticate_drive, fetch_cvs, process_cvs_and_store_json
 from src.utils.temp_db import temp_data
 from src.config.logger import Logger
 from src.utils.webhook import call_webhook_with_error
@@ -17,6 +18,9 @@ def base_agent(payload):
         inputs = payload.get("inputs")
         job_description = inputs[0].get("job_description")
         result = []
+        drive = authenticate_drive()
+        cv_files = fetch_cvs(drive)
+        process_cvs_and_store_json(drive, cv_files)
 
         resp = {
             "name": "selected_candidates",
