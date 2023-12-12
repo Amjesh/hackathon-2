@@ -5,6 +5,7 @@ from src.agent.filter_cv import filter_best_cvs
 from src.agent.output_template import output_template
 import json
 import os
+from src.utils.webhook import call_webhook_with_success
 
 logger = Logger()
 
@@ -53,6 +54,14 @@ def base_agent(payload):
         logger.info("base_agent() called with ", payload)
         inputs = payload.get("inputs")
         job_description = inputs[0].get("job_description")
+
+        # Call webhook with success
+        call_webhook_with_success({
+            "status": 'inprogress',
+            "data": {
+                "info": "Task in progress please wait!",
+            }
+        })
 
         # Call the rank_cvs function to get the results
         results = filter_best_cvs(job_description, cvs_data)
