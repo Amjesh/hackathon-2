@@ -1,26 +1,20 @@
-import time
+import openai
 import os
-from src.agent.extract_key_points import extract_key_points
 
 
-def calculate_score(job_description, key_points):
-    # Implement your scoring logic based on the defined criteria
-    # Example: Count the number of relevant key points matching the job description
-    return key_points.lower().count(job_description.lower())
+def generate_score(job_description, cv_info):
+    openai.api_key = os.environ.get('OPENAI_API_KEY')
 
+    # Combine relevant information from CV for scoring
+    cv_text = f"{job_description}\n\nExperience: {cv_info['experience']}\nProjects: {cv_info['projects']}\nSkills: {cv_info['skills']}"
 
-def rank_cvs(job_description, cvs):
-    standardized_cvs = [summarize_cv(cv) for cv in cvs]
-
-    results = []
-    for idx, cv_text in enumerate(standardized_cvs):
-        key_points = extract_key_points(cv_text)
-        # Implement your comparison criteria here and assign a numerical score
-        # Example: Use a separate function to calculate the score based on key points
-        score = calculate_score(job_description, key_points)
-        results.append((idx + 1, "Candidate Name", "CV Link",
-                       "Experience", "Education", "Highlights", "Don't Meet", score))
-
-    # Sort results by score in descending order
-    results.sort(key=lambda x: x[-1], reverse=True)
-    return results
+    # Make a request to OpenAI for scoring
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=cv_text,
+        max_tokens=50,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+    return response.choices[0].text.strip()
