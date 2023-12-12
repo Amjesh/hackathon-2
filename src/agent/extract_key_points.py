@@ -1,25 +1,20 @@
 import openai
+import time
 import os
 
-# Set your OpenAI API key
-openai.api_key = os.environ.get('OPENAI_API_KEY')
+# Function for key points extraction using OpenAI GPT-3
 
 
 def extract_key_points(cv_text):
-    try:
-        prompt = f"Extract the key points from the following CV text:\n\n{cv_text}\n\nKey Points:"
+    # Replace 'your-api-key' with your actual OpenAI API key
+    openai.api_key = os.environ.get('OPENAI_API_KEY')
 
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # You can experiment with different engines
-            prompt=prompt,
-            max_tokens=150,  # Adjust as needed
-            temperature=0,  # Adjust as needed, higher values make the output more creative
-            stop=None  # You can customize the stop criteria
-        )
-
-        key_points = response['choices'][0]['text'].strip()
-        return key_points
-
-    except Exception as e:
-        print(e)
-        return None
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=f"Extract key points from the CV text: {cv_text}",
+        max_tokens=100,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+    return response.choices[0].text.strip()
