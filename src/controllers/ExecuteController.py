@@ -50,5 +50,6 @@ class ExecuteController:
             logger.info('Function execute: Execution complete', resp)
             return {"result": resp}
         except Exception as e:
+            print(e)
             logger.error('Getting Error in ExecuteController.execute:', e)
             raise call_webhook_with_error(str(e), 500)

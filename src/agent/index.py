@@ -1,6 +1,7 @@
 from src.utils.temp_db import temp_data
 from src.config.logger import Logger
 from src.utils.webhook import call_webhook_with_error
+from src.agent.extract_key_points import extract_key_points
 
 logger = Logger()
 
@@ -14,13 +15,13 @@ def base_agent(payload):
     try:
         logger.info("base_agent() called with ", payload)
         inputs = payload.get("inputs")
-        job_description = inputs.get("job_description")
+        job_description = inputs[0].get("job_description")
         result = []
 
         # Extract key points from the CVs text
         cv_text = """
-        I am an experienced Python Developer with a focus on web development using Django and Flask. 
-        In my previous role at XYZ Corp, I led a team of developers in building scalable and efficient web applications. 
+        I am an experienced Python Developer with a focus on web development using Django and Flask.
+        In my previous role at XYZ Corp, I led a team of developers in building scalable and efficient web applications.
         I am proficient in database management using SQL and have worked with both MySQL and PostgreSQL.
 
         Education:
@@ -58,10 +59,11 @@ def base_agent(payload):
         resp = {
             "name": "selected_candidates",
             "type": "longText",
-            "data": result
+            "data": key_points
         }
-
         return resp
+
     except Exception as e:
+        print(e)
         logger.error('Getting Error in base_agent:', e)
         raise call_webhook_with_error(str(e), 500)
